@@ -1,10 +1,10 @@
 "use client";
 
-import { Box, Container, Grid, Heading, Text, VStack } from '@chakra-ui/react';
+import { useState, useEffect } from 'react';
+import { Box, Container, Grid, Heading, Text, VStack, Skeleton, useColorModeValue } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { Icon } from '@chakra-ui/react';
 import { FaSolarPanel, FaTools, FaComments } from 'react-icons/fa';
-import Card from './Card';
 
 const MotionBox = motion(Box);
 
@@ -37,6 +37,37 @@ const services: Service[] = [
 ];
 
 export const Services = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [flipped, setFlipped] = useState<number | null>(null);
+  const bgColor = useColorModeValue('white', 'gray.800');
+  const textColor = useColorModeValue('gray.600', 'gray.200');
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <Box py={20} bg="gray.50">
+        <Container maxW="container.xl">
+          <VStack spacing={12}>
+            <Skeleton height="40px" width="300px" />
+            <Grid
+              templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }}
+              gap={8}
+              width="100%"
+            >
+              {[...Array(3)].map((_, i) => (
+                <Skeleton key={i} height="300px" width="100%" />
+              ))}
+            </Grid>
+          </VStack>
+        </Container>
+      </Box>
+    );
+  }
+
   return (
     <Box py={20} bg="gray.50">
       <Container maxW="container.xl">
@@ -53,81 +84,86 @@ export const Services = () => {
 
           <Grid
             templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }}
-            gap={8}
+            gap={{ base: 4, md: 8 }}
             width="100%"
           >
             {services.map((service, index) => (
-              <MotionBox
+              <Box
                 key={service.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
+                height={{ base: '220px', sm: '260px', md: '300px' }}
+                onMouseEnter={() => setFlipped(index)}
+                onMouseLeave={() => setFlipped(null)}
+                tabIndex={0}
+                onFocus={() => setFlipped(index)}
+                onBlur={() => setFlipped(null)}
+                role="article"
+                aria-label={`${service.title} service card`}
+                style={{ outline: 'none', perspective: '1000px' }}
               >
-                <Card
-                  height="300px"
+                <Box
+                  height="100%"
+                  width="100%"
                   position="relative"
-                  perspective="1000px"
-                  _hover={{
-                    '& > div': {
-                      transform: 'rotateY(180deg)',
-                    },
+                  style={{
+                    transition: 'transform 0.6s',
+                    transformStyle: 'preserve-3d',
+                    borderRadius: '1rem',
+                    transform: flipped === index ? 'rotateY(180deg)' : 'none',
                   }}
                 >
+                  {/* Front */}
                   <Box
                     position="absolute"
                     width="100%"
                     height="100%"
-                    transition="transform 0.6s"
-                    transformStyle="preserve-3d"
-                    backfaceVisibility="hidden"
+                    bg={bgColor}
+                    borderRadius="xl"
+                    p={{ base: 3, sm: 4, md: 6 }}
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    justifyContent="center"
+                    style={{ backfaceVisibility: 'hidden' }}
                   >
-                    <VStack spacing={4} align="center" justify="center" height="100%">
-                      <MotionBox
-                        animate={{
-                          rotate: [0, 360],
-                        }}
-                        transition={{
-                          duration: 20,
-                          repeat: Infinity,
-                          ease: "linear",
-                        }}
-                      >
-                        <Icon
-                          as={service.icon}
-                          w={12}
-                          h={12}
-                          color="solar.500"
-                        />
-                      </MotionBox>
-                      <Heading as="h3" size="md">
-                        {service.title}
-                      </Heading>
-                      <Text textAlign="center" color="gray.600">
-                        {service.description}
-                      </Text>
-                    </VStack>
+                    <MotionBox
+                      animate={{ rotate: [0, 360] }}
+                      transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                    >
+                      <Icon
+                        as={service.icon}
+                        w={{ base: 8, sm: 10, md: 12 }}
+                        h={{ base: 8, sm: 10, md: 12 }}
+                        color="solar.500"
+                        aria-hidden="true"
+                      />
+                    </MotionBox>
+                    <Heading as="h3" size={{ base: 'sm', md: 'md' }} mt={4} textAlign="center">
+                      {service.title}
+                    </Heading>
+                    <Text textAlign="center" color={textColor} mt={2} fontSize={{ base: 'sm', md: 'md' }}>
+                      {service.description}
+                    </Text>
                   </Box>
-
+                  {/* Back */}
                   <Box
                     position="absolute"
                     width="100%"
                     height="100%"
-                    transition="transform 0.6s"
-                    transformStyle="preserve-3d"
-                    backfaceVisibility="hidden"
-                    transform="rotateY(180deg)"
                     bg="whiteAlpha.900"
                     borderRadius="xl"
-                    p={6}
+                    p={{ base: 3, sm: 4, md: 6 }}
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    justifyContent="center"
+                    style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
                   >
-                    <VStack spacing={4} align="center" justify="center" height="100%">
-                      <Text textAlign="center" color="gray.700">
-                        {service.details}
-                      </Text>
-                    </VStack>
+                    <Text textAlign="center" color={textColor} fontSize={{ base: 'sm', md: 'md' }}>
+                      {service.details}
+                    </Text>
                   </Box>
-                </Card>
-              </MotionBox>
+                </Box>
+              </Box>
             ))}
           </Grid>
         </VStack>

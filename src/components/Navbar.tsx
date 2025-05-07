@@ -17,6 +17,7 @@ import {
   useColorModeValue,
   useBreakpointValue,
   useDisclosure,
+  Image,
 } from '@chakra-ui/react';
 import {
   HamburgerIcon,
@@ -26,6 +27,7 @@ import {
 } from '@chakra-ui/icons';
 import { motion, AnimatePresence } from 'framer-motion';
 import PrimaryButton from './PrimaryButton';
+import { usePathname } from 'next/navigation';
 
 const MotionBox = motion(Box);
 
@@ -61,89 +63,55 @@ const NAV_ITEMS: Array<NavItem> = [
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
   const [isHovered, setIsHovered] = useState(false);
+  const pathname = usePathname();
 
   return (
-    <Box>
+    <Box
+      boxShadow="0 4px 24px rgba(0,0,0,0.08)"
+      bg="rgba(255,255,255,0.85)"
+      style={{ backdropFilter: 'blur(12px)' }}
+      position="fixed"
+      width="100%"
+      zIndex={1000}
+    >
       <Flex
-        bg={useColorModeValue('white', 'gray.800')}
         color={useColorModeValue('gray.600', 'white')}
-        minH={'60px'}
-        py={{ base: 2 }}
-        px={{ base: 4 }}
+        minH={{ base: '44px', md: '54px', lg: '64px' }}
+        py={{ base: 0, md: 1 }}
+        px={{ base: 2, sm: 4, md: 8 }}
         borderBottom={1}
         borderStyle={'solid'}
         borderColor={useColorModeValue('gray.200', 'gray.900')}
         align={'center'}
-        position="fixed"
-        width="100%"
-        zIndex={1000}
-        backdropFilter="blur(10px)"
-        bg="whiteAlpha.800"
+        maxW="container.xl"
+        mx="auto"
+        gap={{ base: 2, md: 0 }}
       >
-        <Flex
-          flex={{ base: 1, md: 'auto' }}
-          ml={{ base: -2 }}
-          display={{ base: 'flex', md: 'none' }}
-        >
-          <IconButton
-            onClick={onToggle}
-            icon={
-              <AnimatePresence mode="wait">
-                {isOpen ? (
-                  <motion.div
-                    initial={{ rotate: 0 }}
-                    animate={{ rotate: 180 }}
-                    exit={{ rotate: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <CloseIcon w={3} h={3} />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    initial={{ rotate: 180 }}
-                    animate={{ rotate: 0 }}
-                    exit={{ rotate: 180 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <HamburgerIcon w={5} h={5} />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            }
-            variant={'ghost'}
-            aria-label={'Toggle Navigation'}
-          />
+        <Flex flex={{ base: 1, md: 'auto' }} align="center" height={{ base: '38px', sm: '44px', md: '64px' }} minW={{ base: '100px', sm: '120px', md: '160px' }} justify={{ base: 'center', md: 'flex-start' }}>
+          <Image src="/solarcity.svg" alt="Solar City Logo" height="100%" width="auto" maxH={{ base: '38px', sm: '44px', md: '64px' }} maxW={{ base: '100px', sm: '120px', md: '240px' }} objectFit="contain" />
         </Flex>
-        <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          <Text
-            textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-            fontFamily={'heading'}
-            color={useColorModeValue('gray.800', 'white')}
-            fontWeight="bold"
-            fontSize="xl"
-          >
-            Solar City
-          </Text>
 
-          <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
-            <DesktopNav />
+        <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
+          <Flex display={{ base: 'none', md: 'flex' }} ml={10} align="center">
+            <DesktopNav pathname={pathname} />
           </Flex>
         </Flex>
 
-        <Stack
-          flex={{ base: 1, md: 0 }}
-          justify={'flex-end'}
-          direction={'row'}
-          spacing={6}
-        >
+        <Stack flex={{ base: 1, md: 0 }} justify={'flex-end'} direction={'row'} spacing={6} align="center">
           <PrimaryButton
-            as={Link}
+            as="a"
             display={{ base: 'none', md: 'inline-flex' }}
-            fontSize={'sm'}
-            fontWeight={600}
+            fontSize={'md'}
+            fontWeight={700}
             color={'white'}
             href={'/contact'}
             variant="primary"
+            px={6}
+            py={2}
+            borderRadius="full"
+            boxShadow="0 2px 8px rgba(0,0,0,0.12)"
+            bgGradient="linear(to-r, solar.500, sky.500)"
+            _hover={{ bgGradient: 'linear(to-r, sky.500, solar.500)', boxShadow: 'lg', transform: 'scale(1.05)' }}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
@@ -166,164 +134,68 @@ export default function Navbar() {
               )}
             </AnimatePresence>
           </PrimaryButton>
+          <IconButton
+            onClick={onToggle}
+            icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
+            variant={'ghost'}
+            aria-label={'Toggle Navigation'}
+            display={{ md: 'none' }}
+          />
         </Stack>
       </Flex>
-
       <Collapse in={isOpen} animateOpacity>
-        <MobileNav />
+        <MobileNav pathname={pathname} />
       </Collapse>
     </Box>
   );
 }
 
-const DesktopNav = () => {
+function DesktopNav({ pathname }: { pathname: string }) {
   const linkColor = useColorModeValue('gray.600', 'gray.200');
   const linkHoverColor = useColorModeValue('gray.800', 'white');
-  const popoverContentBgColor = useColorModeValue('white', 'gray.800');
-
+  const activeColor = useColorModeValue('solar.500', 'sky.500');
   return (
-    <Stack direction={'row'} spacing={4}>
+    <Stack direction={'row'} spacing={4} align="center">
       {NAV_ITEMS.map((navItem) => (
-        <Box key={navItem.label}>
-          <Popover trigger={'hover'} placement={'bottom-start'}>
-            <PopoverTrigger>
-              <Link
-                p={2}
-                href={navItem.href ?? '#'}
-                fontSize={'sm'}
-                fontWeight={500}
-                color={linkColor}
-                _hover={{
-                  textDecoration: 'none',
-                  color: linkHoverColor,
-                }}
-              >
-                {navItem.label}
-              </Link>
-            </PopoverTrigger>
-
-            {navItem.children && (
-              <PopoverContent
-                border={0}
-                boxShadow={'xl'}
-                bg={popoverContentBgColor}
-                p={4}
-                rounded={'xl'}
-                minW={'sm'}
-              >
-                <Stack>
-                  {navItem.children.map((child) => (
-                    <DesktopSubNav key={child.label} {...child} />
-                  ))}
-                </Stack>
-              </PopoverContent>
-            )}
-          </Popover>
-        </Box>
+        <Link
+          key={navItem.label}
+          p={2}
+          href={navItem.href ?? '#'}
+          fontSize={'md'}
+          fontWeight={pathname === navItem.href ? 700 : 500}
+          color={pathname === navItem.href ? activeColor : linkColor}
+          borderBottom={pathname === navItem.href ? '2px solid' : 'none'}
+          borderColor={pathname === navItem.href ? activeColor : 'transparent'}
+          _hover={{
+            textDecoration: 'none',
+            color: linkHoverColor,
+          }}
+        >
+          {navItem.label}
+        </Link>
       ))}
     </Stack>
   );
-};
+}
 
-const DesktopSubNav = ({ label, href }: NavItem) => {
+function MobileNav({ pathname }: { pathname: string }) {
   return (
-    <Link
-      href={href}
-      role={'group'}
-      display={'block'}
-      p={2}
-      rounded={'md'}
-      _hover={{ bg: useColorModeValue('solar.50', 'gray.900') }}
-    >
-      <Stack direction={'row'} align={'center'}>
-        <Box>
-          <Text
-            transition={'all .3s ease'}
-            _groupHover={{ color: 'solar.500' }}
-            fontWeight={500}
-          >
-            {label}
-          </Text>
-        </Box>
-        <Flex
-          transition={'all .3s ease'}
-          transform={'translateX(-10px)'}
-          opacity={0}
-          _groupHover={{ opacity: '100%', transform: 'translateX(0)' }}
-          justify={'flex-end'}
-          align={'center'}
-          flex={1}
-        >
-          <Icon color={'solar.500'} w={5} h={5} as={ChevronRightIcon} />
-        </Flex>
-      </Stack>
-    </Link>
-  );
-};
-
-const MobileNav = () => {
-  return (
-    <Stack
-      bg={useColorModeValue('white', 'gray.800')}
-      p={4}
-      display={{ md: 'none' }}
-    >
+    <Stack bg={useColorModeValue('white', 'gray.800')} p={4} display={{ md: 'none' }}>
       {NAV_ITEMS.map((navItem) => (
-        <MobileNavItem key={navItem.label} {...navItem} />
+        <Link
+          key={navItem.label}
+          href={navItem.href ?? '#'}
+          fontWeight={pathname === navItem.href ? 700 : 500}
+          color={pathname === navItem.href ? 'solar.500' : useColorModeValue('gray.600', 'gray.200')}
+          borderLeft={pathname === navItem.href ? '4px solid' : 'none'}
+          borderColor={pathname === navItem.href ? 'solar.500' : 'transparent'}
+          py={2}
+          px={2}
+          _hover={{ color: 'sky.500' }}
+        >
+          {navItem.label}
+        </Link>
       ))}
     </Stack>
   );
-};
-
-const MobileNavItem = ({ label, children, href }: NavItem) => {
-  const { isOpen, onToggle } = useDisclosure();
-
-  return (
-    <Stack spacing={4} onClick={children && onToggle}>
-      <Flex
-        py={2}
-        as={Link}
-        href={href ?? '#'}
-        justify={'space-between'}
-        align={'center'}
-        _hover={{
-          textDecoration: 'none',
-        }}
-      >
-        <Text
-          fontWeight={600}
-          color={useColorModeValue('gray.600', 'gray.200')}
-        >
-          {label}
-        </Text>
-        {children && (
-          <Icon
-            as={ChevronDownIcon}
-            transition={'all .25s ease-in-out'}
-            transform={isOpen ? 'rotate(180deg)' : ''}
-            w={6}
-            h={6}
-          />
-        )}
-      </Flex>
-
-      <Collapse in={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
-        <Stack
-          mt={2}
-          pl={4}
-          borderLeft={1}
-          borderStyle={'solid'}
-          borderColor={useColorModeValue('gray.200', 'gray.700')}
-          align={'start'}
-        >
-          {children &&
-            children.map((child) => (
-              <Link key={child.label} py={2} href={child.href}>
-                {child.label}
-              </Link>
-            ))}
-        </Stack>
-      </Collapse>
-    </Stack>
-  );
-}; 
+} 

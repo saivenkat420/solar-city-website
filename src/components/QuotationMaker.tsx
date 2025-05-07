@@ -93,12 +93,12 @@ export const QuotationMaker = () => {
   };
 
   return (
-    <Box py={20} bg="gray.50">
-      <Container maxW="container.xl">
-        <VStack spacing={12}>
+    <Box py={{ base: 10, md: 20 }} bg="gray.50">
+      <Container maxW="container.xl" px={{ base: 2, sm: 4, md: 8 }}>
+        <VStack spacing={{ base: 6, md: 12 }}>
           <Heading
             as="h2"
-            size="xl"
+            size={{ base: 'lg', md: 'xl' }}
             textAlign="center"
             bgGradient="linear(to-r, solar.500, sky.500)"
             bgClip="text"
@@ -106,9 +106,9 @@ export const QuotationMaker = () => {
             Get Your Solar Quote
           </Heading>
 
-          <Card width="100%" maxW="800px">
+          <Card width="100%" maxW="800px" p={{ base: 2, sm: 4, md: 6 }}>
             <form onSubmit={handleSubmit}>
-              <VStack spacing={8}>
+              <VStack spacing={{ base: 4, md: 8 }}>
                 <Progress
                   value={progress}
                   size="sm"
@@ -191,6 +191,8 @@ export const QuotationMaker = () => {
                   type="submit"
                   width="100%"
                   isDisabled={progress < 100}
+                  fontSize={{ base: 'md', md: 'lg' }}
+                  py={{ base: 5, md: 6 }}
                 >
                   Get Quote
                 </PrimaryButton>

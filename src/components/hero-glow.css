@@ -1,0 +1,25 @@
+.hero-glow {
+  animation: hero-glow 2s ease-in-out infinite alternate;
+}
+
+.hero-glow--medium {
+  animation: hero-glow-medium 2s ease-in-out infinite alternate;
+}
+
+@keyframes hero-glow {
+  from {
+    box-shadow: 0 0 24px 4px rgba(255, 193, 7, 0.4), 0 2px 8px rgba(0,0,0,0.12);
+  }
+  to {
+    box-shadow: 0 0 48px 16px rgba(255, 193, 7, 0.7), 0 4px 16px rgba(0,0,0,0.18);
+  }
+}
+
+@keyframes hero-glow-medium {
+  from {
+    box-shadow: 0 0 12px 2px rgba(255, 193, 7, 0.25), 0 2px 8px rgba(0,0,0,0.10);
+  }
+  to {
+    box-shadow: 0 0 20px 6px rgba(255, 193, 7, 0.35), 0 4px 16px rgba(0,0,0,0.15);
+  }
+} 

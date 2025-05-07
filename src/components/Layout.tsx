@@ -1,6 +1,6 @@
 "use client";
 
-import { Box } from '@chakra-ui/react';
+import { Box, Image, Flex, Text } from '@chakra-ui/react';
 import Navbar from './Navbar';
 
 interface LayoutProps {
@@ -16,20 +16,25 @@ export const Layout = ({ children }: LayoutProps) => {
       </Box>
       <Box
         as="footer"
-        py={8}
+        py={{ base: 4, md: 8 }}
         bg="gray.50"
         borderTop="1px"
         borderColor="gray.200"
       >
-        <Box
+        <Flex
           maxW="container.xl"
           mx="auto"
-          px={4}
-          textAlign="center"
-          color="gray.600"
+          px={{ base: 2, sm: 4, md: 8 }}
+          direction={{ base: 'column', sm: 'row' }}
+          align="center"
+          justify="center"
+          gap={2}
         >
-          © {new Date().getFullYear()} Solar City. All rights reserved.
-        </Box>
+          <Image src="/solarcity.svg" alt="Solar City Logo" height={{ base: '28px', sm: '36px' }} width="auto" mr={{ base: 0, sm: 2 }} mb={{ base: 2, sm: 0 }} />
+          <Text fontSize={{ base: 'xs', sm: 'sm', md: 'md' }} color="gray.600" textAlign="center">
+            © {new Date().getFullYear()} Solar City. All rights reserved.
+          </Text>
+        </Flex>
       </Box>
     </Box>
   );

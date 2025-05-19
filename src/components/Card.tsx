@@ -1,39 +1,39 @@
 "use client";
 
-import { Box, BoxProps } from '@chakra-ui/react';
-import { motion, Transition } from 'framer-motion';
+import { BoxProps } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 
-const MotionBox = motion(Box);
+// Create a motion div instead of using motion(Box)
+const MotionDiv = motion.div;
 
-interface CardProps extends BoxProps {
+interface CardProps extends Omit<BoxProps, 'transition'> {
   children: React.ReactNode;
 }
 
-export const Card = ({ children, ...props }: CardProps) => {
-  const transition: Transition = {
-    type: 'spring',
-    stiffness: 400,
-    damping: 17,
-  };
-
+export const Card = ({ children }: CardProps) => {
   return (
-    <MotionBox
-      p={6}
-      borderRadius="xl"
-      backdropFilter="blur(10px)"
-      bg="whiteAlpha.800"
-      boxShadow="lg"
-      _hover={{
-        transform: 'translateY(-4px)',
-        boxShadow: 'xl',
+    <MotionDiv
+      style={{
+        padding: '1.5rem',
+        borderRadius: '1rem',
+        backdropFilter: 'blur(10px)',
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
       }}
-      transition={transition}
-      whileHover={{ scale: 1.02 }}
+      whileHover={{ 
+        y: -4, 
+        boxShadow: '0 10px 15px rgba(0, 0, 0, 0.1)',
+        scale: 1.02 
+      }}
       whileTap={{ scale: 0.98 }}
-      {...props}
+      transition={{
+        type: 'spring',
+        stiffness: 400,
+        damping: 17,
+      }}
     >
       {children}
-    </MotionBox>
+    </MotionDiv>
   );
 };
 

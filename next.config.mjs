@@ -1,8 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['via.placeholder.com'],
     formats: ['image/avif', 'image/webp'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
+      },
+    ],
   },
   reactStrictMode: true,
   poweredByHeader: false,
@@ -10,10 +15,9 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
   experimental: {
-    optimizeCss: true,
-    optimizePackageImports: ['@chakra-ui/react', 'framer-motion'],
+    optimizeCss: false,
+    optimizePackageImports: ['@chakra-ui/react', 'framer-motion']
   },
-  turbopack: true,
   async headers() {
     return [
       {

@@ -14,10 +14,10 @@ import PersonalizedRecommendations from '../../../components/PersonalizedRecomme
 import TestimonialsTrustBadges from '../../../components/TestimonialsTrustBadges.js';
 import StateBenchmark from '../../../components/StateBenchmark.js';
 import FAQNextSteps from '../../../components/FAQNextSteps.js';
-import { Box, Text, Center, VStack, Button, Card, Heading, Icon, SimpleGrid } from '@chakra-ui/react';
+import { Box, Text, Center, VStack, Button, Card, Heading, Icon, SimpleGrid, Spinner } from '@chakra-ui/react';
 import Navbar from '../../../components/Navbar';
 import { FaChevronDown, FaFileDownload } from 'react-icons/fa';
-import { useRef } from 'react';
+import { useRef, Suspense } from 'react';
 import ScrollInsightButtonWrapper from '../../../components/ScrollInsightButtonWrapper';
 
 // Define a function to calculate quote locally since we can't import it properly
@@ -185,10 +185,10 @@ const vizCardStyle = {
   },
   mb: { base: 6, md: 8 },
   minW: 0,
-  overflowX: { base: 'auto', md: 'visible' },
 };
 
-export default function QuotationResultPage() {
+// Create a client component that uses useSearchParams
+function QuotationResultContent() {
   const params = useSearchParams();
   const router = useRouter();
   const billAmount = params.get('billAmount');
@@ -258,7 +258,7 @@ export default function QuotationResultPage() {
         {/* Visualizations Grid - Single Column */}
         <SimpleGrid columns={1} spacing={6} alignItems="stretch" w="90vw" mx="auto">
           {/* 1. Your Solar Savings Journey */}
-          <Box {...vizCardStyle}>
+          <Box {...vizCardStyle} overflow="hidden">
             <SavingsOverTimeChart
               billAmount={parseFloat(billAmount)}
               systemSize={systemSize}
@@ -268,27 +268,27 @@ export default function QuotationResultPage() {
           </Box>
           
           {/* 2. Your Monthly Bill Reduction */}
-          <Box {...vizCardStyle}>
+          <Box {...vizCardStyle} overflow="hidden">
             <BillReductionChart billAmount={parseFloat(billAmount)} />
           </Box>
           
           {/* 3. Your Solar Payback Timeline */}
-          <Box {...vizCardStyle}>
+          <Box {...vizCardStyle} overflow="hidden">
             <PaybackTimeline breakEvenMonths={breakEvenMonths} />
           </Box>
           
           {/* 4. Your Solar System Size Visualization */}
-          <Box {...vizCardStyle}>
+          <Box {...vizCardStyle} overflow="hidden">
             <SolarSystemSizing systemSize={systemSize} />
           </Box>
           
           {/* 5. Solar vs Grid Price Projection */}
-          <Box {...vizCardStyle}>
+          <Box {...vizCardStyle} overflow="hidden">
             <SolarVsGridPrice billAmount={parseFloat(billAmount)} />
           </Box>
           
           {/* 6. Interactive System Simulator */}
-          <Box {...vizCardStyle}>
+          <Box {...vizCardStyle} overflow="hidden">
             <InteractiveSliders 
               initialBillAmount={parseFloat(billAmount)} 
               initialSystemSize={systemSize}
@@ -297,7 +297,7 @@ export default function QuotationResultPage() {
           </Box>
           
           {/* 7. Key Metrics At a Glance */}
-          <Box {...vizCardStyle}>
+          <Box {...vizCardStyle} overflow="hidden">
             <AnimatedProgressCircles 
               systemSize={systemSize} 
               breakEvenMonths={breakEvenMonths} 
@@ -306,12 +306,12 @@ export default function QuotationResultPage() {
           </Box>
           
           {/* 8. Environmental Impact */}
-          <Box {...vizCardStyle}>
+          <Box {...vizCardStyle} overflow="hidden">
             <EnvironmentalImpact systemSize={systemSize} />
           </Box>
           
           {/* 9. Investment Comparison */}
-          <Box {...vizCardStyle}>
+          <Box {...vizCardStyle} overflow="hidden">
             <InvestmentComparison estimatedCost={estimatedCost} />
           </Box>
           
@@ -337,5 +337,18 @@ export default function QuotationResultPage() {
       </Box>
       <ScrollInsightButtonWrapper />
     </Box>
+  );
+}
+
+// Main component with Suspense boundary
+export default function QuotationResultPage() {
+  return (
+    <Suspense fallback={
+      <Center minH="100vh">
+        <Spinner size="xl" color="orange.500" thickness="4px" />
+      </Center>
+    }>
+      <QuotationResultContent />
+    </Suspense>
   );
 } 

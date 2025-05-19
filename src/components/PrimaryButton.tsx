@@ -1,9 +1,10 @@
 "use client";
 
-import { Button, ButtonProps } from '@chakra-ui/react';
+import { Button, ButtonProps, Box } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 
-const MotionButton = motion(Button);
+// Create a motion div
+const MotionBox = motion(Box);
 
 interface PrimaryButtonProps extends ButtonProps {
   children: React.ReactNode;
@@ -14,35 +15,43 @@ interface PrimaryButtonProps extends ButtonProps {
 
 export const PrimaryButton = ({ children, variant = 'primary', ...props }: PrimaryButtonProps) => {
   return (
-    <MotionButton
-      variant={variant}
+    <MotionBox
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-      position="relative"
-      overflow="hidden"
-      _after={{
-        content: '""',
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        width: '5px',
-        height: '5px',
-        background: 'rgba(255, 255, 255, 0.5)',
-        opacity: 0,
-        borderRadius: '100%',
-        transform: 'scale(1, 1) translate(-50%)',
-        transformOrigin: '50% 50%',
+      transition={{ 
+        type: 'spring',
+        stiffness: 400, 
+        damping: 17 
       }}
-      _hover={{
-        _after: {
-          animation: 'ripple 1s ease-out',
-        },
-      }}
-      {...props}
+      display="inline-block"
     >
-      {children}
-    </MotionButton>
+      <Button
+        variant={variant}
+        position="relative"
+        overflow="hidden"
+        _after={{
+          content: '""',
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          width: '5px',
+          height: '5px',
+          background: 'rgba(255, 255, 255, 0.5)',
+          opacity: 0,
+          borderRadius: '100%',
+          transform: 'scale(1, 1) translate(-50%)',
+          transformOrigin: '50% 50%',
+        }}
+        _hover={{
+          _after: {
+            animation: 'ripple 1s ease-out',
+          },
+        }}
+        {...props}
+      >
+        {children}
+      </Button>
+    </MotionBox>
   );
 };
 

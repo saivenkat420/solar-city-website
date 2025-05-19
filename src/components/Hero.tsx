@@ -4,6 +4,8 @@ import { Box, Container, Heading, Text, VStack, useBreakpointValue } from '@chak
 import { motion } from 'framer-motion';
 import PrimaryButton from './PrimaryButton';
 import './hero-glow.css';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 const MotionBox = motion(Box);
 
@@ -25,20 +27,46 @@ export const Hero = ({ title, subtitle, ctaText, ctaLink }: HeroProps) => {
     lg: "/solar-city-hero-page-md-img.jpg",
     xl: "/solar-city-hero-page-md-img.jpg",
   });
+  
+  // For improved performance with Next.js images
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <Box
+      as="section"
       position="relative"
-      minH={{ base: '80vh', md: '100vh' }}
+      minH={{ base: '80vh', md: '92vh' }}
+      maxH={{ lg: '92vh' }}
+      h={{ lg: '92vh' }}
       display="flex"
       alignItems="center"
       overflow="hidden"
-      bgImage={`url('${bgImage}')`}
-      bgSize="cover"
-      bgPosition="center"
       role="banner"
       aria-label="Hero section"
+      id="hero"
     >
+      {/* Use Next.js Image for better optimization */}
+      {mounted && bgImage && (
+        <Box position="absolute" top={0} left={0} right={0} bottom={0} zIndex={0}>
+          <Image
+            src={bgImage}
+            alt="Solar panels installation on a residential home"
+            fill
+            priority
+            sizes="100vw"
+            style={{
+              objectFit: 'cover',
+              objectPosition: 'center',
+              zIndex: 0,
+            }}
+          />
+        </Box>
+      )}
+      
       {/* Overlay for readability */}
       <Box
         position="absolute"
@@ -47,7 +75,7 @@ export const Hero = ({ title, subtitle, ctaText, ctaLink }: HeroProps) => {
         right={0}
         bottom={0}
         bg="rgba(0,0,0,0.45)"
-        zIndex={0}
+        zIndex={1}
         aria-hidden="true"
       />
 
@@ -67,6 +95,7 @@ export const Hero = ({ title, subtitle, ctaText, ctaLink }: HeroProps) => {
           repeat: Infinity,
           ease: "linear",
         }}
+        zIndex={2}
         aria-hidden="true"
       >
         {[...Array(12)].map((_, i) => (
@@ -93,7 +122,7 @@ export const Hero = ({ title, subtitle, ctaText, ctaLink }: HeroProps) => {
       </MotionBox>
 
       {/* Content */}
-      <Container maxW="container.xl" position="relative" zIndex={1}>
+      <Container maxW="container.xl" position="relative" zIndex={3}>
         <VStack
           spacing={{ base: 6, md: 8 }}
           align="center"
@@ -141,13 +170,12 @@ export const Hero = ({ title, subtitle, ctaText, ctaLink }: HeroProps) => {
             <PrimaryButton
               as="a"
               href={ctaLink}
-              size={isMobile ? 'md' : 'lg'}
+              size="md"
               variant="primary"
               width={{ base: '100%', md: 'auto' }}
               px={{ base: 6, md: 8 }}
               py={{ base: 4, md: 5 }}
               fontWeight="bold"
-              fontSize={{ base: 'md', md: 'xl' }}
               boxShadow="0 0 12px 2px rgba(255, 193, 7, 0.25), 0 2px 8px rgba(0,0,0,0.10)"
               bgGradient="linear(to-r, solar.500, sky.500)"
               _hover={{

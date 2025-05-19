@@ -98,7 +98,7 @@ export const QuotationMaker = () => {
         <VStack spacing={{ base: 6, md: 12 }}>
           <Heading
             as="h2"
-            size={{ base: 'lg', md: 'xl' }}
+            size="lg"
             textAlign="center"
             bgGradient="linear(to-r, solar.500, sky.500)"
             bgClip="text"
@@ -106,9 +106,9 @@ export const QuotationMaker = () => {
             Get Your Solar Quote
           </Heading>
 
-          <Card width="100%" maxW="800px" p={{ base: 2, sm: 4, md: 6 }}>
+          <Card width="100%" maxW="800px" p={4}>
             <form onSubmit={handleSubmit}>
-              <VStack spacing={{ base: 4, md: 8 }}>
+              <VStack spacing={4}>
                 <Progress
                   value={progress}
                   size="sm"
@@ -176,10 +176,10 @@ export const QuotationMaker = () => {
                     <Card bg="solar.50" p={6}>
                       <VStack spacing={4}>
                         <Heading size="md">Estimated Cost</Heading>
-                        <Text fontSize="3xl" fontWeight="bold" color="solar.500">
+                        <Text fontSize="2xl" fontWeight="bold" color="solar.500">
                           ${estimatedCost.toLocaleString()}
                         </Text>
-                        <Text textAlign="center" color="gray.600">
+                        <Text textAlign="center" color="gray.600" fontSize="sm">
                           This is an estimate based on your inputs. Contact us for a detailed quote.
                         </Text>
                       </VStack>
@@ -191,8 +191,8 @@ export const QuotationMaker = () => {
                   type="submit"
                   width="100%"
                   isDisabled={progress < 100}
-                  fontSize={{ base: 'md', md: 'lg' }}
-                  py={{ base: 5, md: 6 }}
+                  fontSize="md"
+                  py={4}
                 >
                   Get Quote
                 </PrimaryButton>

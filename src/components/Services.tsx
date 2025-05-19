@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Box, Container, Grid, Heading, Text, VStack, Skeleton, useColorModeValue } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { Icon } from '@chakra-ui/react';
-import { FaSolarPanel, FaTools, FaComments } from 'react-icons/fa';
+import { FaSolarPanel, FaTools, FaComments, FaBatteryFull, FaChartLine, FaMoneyBillWave } from 'react-icons/fa';
 
 const MotionBox = motion(Box);
 
@@ -34,13 +34,39 @@ const services: Service[] = [
     icon: FaComments,
     details: 'Get personalized recommendations on system size, financing options, and energy savings calculations.',
   },
+  {
+    title: 'Battery Storage',
+    description: 'Advanced battery solutions for energy independence and backup power.',
+    icon: FaBatteryFull,
+    details: 'Store excess solar energy for use at night or during outages with our reliable battery systems.',
+  },
+  {
+    title: 'System Monitoring',
+    description: '24/7 monitoring to ensure your solar system is always performing at its best.',
+    icon: FaChartLine,
+    details: 'Track your energy production and receive alerts for any issues with our smart monitoring platform.',
+  },
+  {
+    title: 'Financing & Incentives',
+    description: 'Flexible financing options and help with government incentives.',
+    icon: FaMoneyBillWave,
+    details: 'We guide you through available loans, subsidies, and tax benefits to make solar affordable.',
+  },
 ];
 
 export const Services = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [flipped, setFlipped] = useState<number | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  
   const bgColor = useColorModeValue('white', 'gray.800');
   const textColor = useColorModeValue('gray.600', 'gray.200');
+  const cardBg = useColorModeValue(
+    'linear-gradient(135deg, white 0%, #f7fafc 100%)',
+    'linear-gradient(135deg, gray.800 0%, gray.700 100%)'
+  );
+  const borderColor = useColorModeValue('solar.100', 'solar.900');
+  const shadowColor = useColorModeValue('rgba(0, 0, 0, 0.1)', 'rgba(255, 255, 255, 0.1)');
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 1000);
@@ -49,9 +75,9 @@ export const Services = () => {
 
   if (isLoading) {
     return (
-      <Box py={20} bg="gray.50">
+      <Box py={10} bg="gray.50">
         <Container maxW="container.xl">
-          <VStack spacing={12}>
+          <VStack spacing={6}>
             <Skeleton height="40px" width="300px" />
             <Grid
               templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }}
@@ -69,36 +95,54 @@ export const Services = () => {
   }
 
   return (
-    <Box py={20} bg="gray.50">
+    <Box py={10} bg="gray.50">
       <Container maxW="container.xl">
-        <VStack spacing={12}>
+        <VStack spacing={5}>
           <Heading
             as="h2"
-            size="xl"
+            size="lg"
             textAlign="center"
             bgGradient="linear(to-r, solar.500, sky.500)"
             bgClip="text"
+            
           >
             Our Services
           </Heading>
+          <Text
+            textAlign="center"
+            fontSize="lg"
+            color={textColor}
+            maxW="2xl"
+            
+          >
+            Discover our comprehensive range of solar energy solutions tailored to your needs
+          </Text>
 
           <Grid
             templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }}
-            gap={{ base: 4, md: 8 }}
+            gap={{ base: 6, md: 8 }}
             width="100%"
           >
             {services.map((service, index) => (
-              <Box
+              <MotionBox
                 key={service.title}
-                height={{ base: '220px', sm: '260px', md: '300px' }}
-                onMouseEnter={() => setFlipped(index)}
-                onMouseLeave={() => setFlipped(null)}
+                height={{ base: '280px', sm: '300px', md: '320px' }}
+                onMouseEnter={() => {
+                  setFlipped(index);
+                  setHoveredIndex(index);
+                }}
+                onMouseLeave={() => {
+                  setFlipped(null);
+                  setHoveredIndex(null);
+                }}
                 tabIndex={0}
                 onFocus={() => setFlipped(index)}
                 onBlur={() => setFlipped(null)}
                 role="article"
                 aria-label={`${service.title} service card`}
                 style={{ outline: 'none', perspective: '1000px' }}
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3 }}
               >
                 <Box
                   height="100%"
@@ -107,7 +151,6 @@ export const Services = () => {
                   style={{
                     transition: 'transform 0.6s',
                     transformStyle: 'preserve-3d',
-                    borderRadius: '1rem',
                     transform: flipped === index ? 'rotateY(180deg)' : 'none',
                   }}
                 >
@@ -116,54 +159,102 @@ export const Services = () => {
                     position="absolute"
                     width="100%"
                     height="100%"
-                    bg={bgColor}
+                    bgGradient={cardBg}
                     borderRadius="xl"
-                    p={{ base: 3, sm: 4, md: 6 }}
+                    p={{ base: 6, md: 8 }}
                     display="flex"
                     flexDirection="column"
                     alignItems="center"
                     justifyContent="center"
+                    border="1px solid"
+                    borderColor={hoveredIndex === index ? 'solar.500' : borderColor}
+                    boxShadow={`0 8px 32px ${shadowColor}`}
+                    transition="all 0.3s ease-in-out"
                     style={{ backfaceVisibility: 'hidden' }}
+                    _hover={{
+                      boxShadow: `0 12px 48px ${shadowColor}`,
+                    }}
                   >
                     <MotionBox
-                      animate={{ rotate: [0, 360] }}
-                      transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                      initial={{ scale: 1 }}
+                      animate={hoveredIndex === index ? {
+                        scale: [1, 1.2, 1],
+                        rotate: [0, 360],
+                      } : {}}
+                      transition={{
+                        duration: 1.5,
+                        ease: "easeInOut",
+                        times: [0, 0.5, 1],
+                      }}
                     >
                       <Icon
                         as={service.icon}
-                        w={{ base: 8, sm: 10, md: 12 }}
-                        h={{ base: 8, sm: 10, md: 12 }}
+                        w={{ base: 12, md: 16 }}
+                        h={{ base: 12, md: 16 }}
                         color="solar.500"
                         aria-hidden="true"
                       />
                     </MotionBox>
-                    <Heading as="h3" size={{ base: 'sm', md: 'md' }} mt={4} textAlign="center">
+                    <Heading
+                      as="h3"
+                      size="md"
+                      mt={6}
+                      mb={3}
+                      textAlign="center"
+                      color={useColorModeValue('gray.800', 'white')}
+                    >
                       {service.title}
                     </Heading>
-                    <Text textAlign="center" color={textColor} mt={2} fontSize={{ base: 'sm', md: 'md' }}>
+                    <Text
+                      textAlign="center"
+                      color={textColor}
+                      fontSize="md"
+                      lineHeight="tall"
+                    >
                       {service.description}
                     </Text>
                   </Box>
+
                   {/* Back */}
                   <Box
                     position="absolute"
                     width="100%"
                     height="100%"
-                    bg="whiteAlpha.900"
+                    bgGradient={cardBg}
                     borderRadius="xl"
-                    p={{ base: 3, sm: 4, md: 6 }}
+                    p={{ base: 6, md: 8 }}
                     display="flex"
                     flexDirection="column"
                     alignItems="center"
                     justifyContent="center"
+                    border="1px solid"
+                    borderColor={hoveredIndex === index ? 'solar.500' : borderColor}
+                    boxShadow={`0 8px 32px ${shadowColor}`}
+                    transition="all 0.3s ease-in-out"
                     style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
+                    _hover={{
+                      boxShadow: `0 12px 48px ${shadowColor}`,
+                    }}
                   >
-                    <Text textAlign="center" color={textColor} fontSize={{ base: 'sm', md: 'md' }}>
+                    <Heading
+                      as="h4"
+                      size="sm"
+                      mb={4}
+                      color={useColorModeValue('solar.600', 'solar.400')}
+                    >
+                      Learn More
+                    </Heading>
+                    <Text
+                      textAlign="center"
+                      color={textColor}
+                      fontSize="md"
+                      lineHeight="tall"
+                    >
                       {service.details}
                     </Text>
                   </Box>
                 </Box>
-              </Box>
+              </MotionBox>
             ))}
           </Grid>
         </VStack>

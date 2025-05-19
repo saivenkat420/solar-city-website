@@ -35,8 +35,8 @@ npm install
 
 3. Create a `.env.local` file in the root directory with your Supabase credentials:
 ```env
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url_here
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
 ```
 
 4. Start the development server:
@@ -113,3 +113,37 @@ The site is configured for deployment on Vercel:
 ## License
 
 MIT License - see LICENSE file for details
+
+## Notifications System
+
+The Solar City website now includes a comprehensive notifications system to alert administrators of new contact form submissions:
+
+1. **In-app real-time notifications**
+   - Available at `/admin/notifications` for testing
+   - Notification bell in the site header (visible to admin users)
+   - Uses Supabase Realtime to provide instant notifications
+
+2. **Email notifications**
+   - Supabase Edge Function (`contact-notification-email`)
+   - Sends detailed email for each new contact form submission
+   - Configurable recipient and template
+
+3. **Slack notifications**
+   - Supabase Edge Function (`contact-notification-slack`) 
+   - Sends formatted Slack messages with contact details
+   - Uses Slack webhooks for easy integration
+
+4. **SMS notifications via Twilio**
+   - Supabase Edge Function (`contact-notification-sms`)
+   - Sends text message alerts for new contacts
+   - Easily configurable with Twilio credentials
+
+### Setting up Notifications
+
+To set up email, Slack, or SMS notifications:
+
+1. Deploy the Edge Functions in the `supabase/functions` directory
+2. Set the required environment variables in your Supabase project
+3. Run the SQL migration in `supabase/migrations` to create database triggers
+
+See the full guide at `docs/supabase-notifications-guide.md` for detailed setup instructions.

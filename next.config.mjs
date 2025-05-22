@@ -71,6 +71,10 @@ const nextConfig = {
       },
     ];
   },
+  env: {
+    NEXT_PUBLIC_SUPABASE_URL: 'https://eyncbsagscyzhkghzrtt.supabase.co',
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5bmNic2Fnc2N5emhrZ2h6cnR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY1OTM3OTMsImV4cCI6MjA2MjE2OTc5M30.4TDKxfDIkxzKclUF21XeUhphOLiUZdp3PeuKMgXinX4',
+  },
 };
 
 export default nextConfig;

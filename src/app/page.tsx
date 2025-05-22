@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import Layout from '../components/Layout';
 import Hero from '../components/Hero';
 import { Suspense } from 'react';
+import HomePageSchema from './page-schema';
 
 // Dynamically import components that are not needed for initial page render
 const Services = dynamic(() => import('../components/Services'), { 
@@ -24,9 +25,10 @@ const About = dynamic(() => import('../components/About'), {
 export default function Home() {
   return (
     <Layout>
+      <HomePageSchema />
       <Hero
-        title="Power Your Future with Solar City"
-        subtitle="Affordable solar solutions for homes and businesses"
+        title="Power Your Future with Solar City Solutions"
+        subtitle="Premium solar energy systems for homes and businesses across India"
         ctaText="Get a Free Quote"
         ctaLink="/quotation"
       />

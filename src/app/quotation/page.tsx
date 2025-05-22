@@ -3,10 +3,12 @@
 import { Box } from '@chakra-ui/react';
 import Layout from '../../components/Layout';
 import QuotationCalculator from '../../components/QuotationCalculator';
+import QuotationPageSchema from './quotation-schema';
 
 export default function QuotationPage() {
   return (
     <Layout>
+      <QuotationPageSchema />
       <Box 
         minH="calc(100vh - 80px)"
         bg="gray.50"

@@ -2,13 +2,13 @@ import { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Solar City - Power Your Future',
-    short_name: 'Solar City',
-    description: 'High-quality, affordable solar solutions for homes and businesses',
+    name: 'Solar City Solutions - Premium Solar Energy Systems',
+    short_name: 'Solar City Solutions',
+    description: 'Professional solar installation and renewable energy solutions for homes and businesses across India',
     start_url: '/',
     display: 'standalone',
     background_color: '#ffffff',
-    theme_color: '#ffffff',
+    theme_color: '#1a9f53',
     icons: [
       {
         src: '/favicon.ico',
@@ -38,5 +38,12 @@ export default function manifest(): MetadataRoute.Manifest {
         purpose: 'maskable',
       },
     ],
+    related_applications: [
+      {
+        platform: 'web',
+        url: 'https://www.solarcitysolutions.in'
+      }
+    ],
+    categories: ['business', 'utilities', 'energy', 'sustainability']
   };
 } 

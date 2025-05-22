@@ -22,7 +22,7 @@ const team = [
   {
     name: "Prabhakara Rao",
     title: "Chairman & Founder",
-    img: "https://randomuser.me/api/portraits/men/32.jpg",
+    img: "/prabhakara-rao-founder-img.png",
     bio: "Mr.Rao started Solar City in 2020, guiding the company from humble beginnings to a leader in solar rooftop solutions. His vision and dedication ensure every customer receives the best service.",
   },
   {
@@ -57,17 +57,22 @@ const testimonials = [
 const projects = [
   {
     title: "PM Surya Ghar Yojana Project",
-    img: "https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=600&q=80",
+    img: "/pm-surya-ghar-yojana-solar-system-img.jpg",
     desc: "Completed 25+ rooftop solar installations under the PM Surya Ghar Yojana scheme, helping families get free electricity.",
   },
   {
     title: "On-Grid Rooftop System",
-    img: "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80",
+    img: "/on-grid-img.jpg",
     desc: "Installed advanced on-grid solar systems for homes and businesses, ensuring reliable and cost-effective power.",
   },
   {
     title: "Off-Grid Solar Solutions",
-    img: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=600&q=80",
+    img: "/off-grid-img.jpg",
+    desc: "Delivered off-grid solar projects for remote areas, providing energy independence and peace of mind.",
+  },
+  {
+    title: "Hybrid Solar Solutions",
+    img: "/hybrid-solar-system-img.jpg",
     desc: "Delivered off-grid solar projects for remote areas, providing energy independence and peace of mind.",
   },
 ];
@@ -195,7 +200,7 @@ const About = () => {
             <Heading as="h3" size="lg" color="solar.500">
               Our Projects
             </Heading>
-            <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4} w="100%">
+            <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4} w="100%">
               {projects.map((p) => (
                 <VStack
                   key={p.title}
@@ -210,7 +215,7 @@ const About = () => {
                     borderRadius="md"
                     objectFit="cover"
                     w="100%"
-                    h="120px"
+                    h="150px"
                     mb={1}
                   />
                   <Text fontWeight="semibold" fontSize="md">

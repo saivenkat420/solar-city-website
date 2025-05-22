@@ -1,10 +1,15 @@
-# Allow all crawlers
+# Solar City Solutions robots.txt
 User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://solarcity.com/sitemap.xml
+Sitemap: https://www.solarcitysolutions.in/sitemap.xml
 
 # Disallow API routes
-Disallow: /api/ 
- 
+Disallow: /api/
+
+# Disallow admin areas
+Disallow: /admin/
+
+# Optimize crawl rate
+Crawl-delay: 1 

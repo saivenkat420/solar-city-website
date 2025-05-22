@@ -256,7 +256,7 @@ function QuotationResultContent() {
           </Text>
         </Box>
         {/* Visualizations Grid - Single Column */}
-        <SimpleGrid columns={1} spacing={6} alignItems="stretch" w="90vw" mx="auto">
+        <SimpleGrid columns={1} spacing={6} alignItems="stretch" w="80%" mx="auto">
           {/* 1. Your Solar Savings Journey */}
           <Box {...vizCardStyle} overflow="hidden">
             <SavingsOverTimeChart

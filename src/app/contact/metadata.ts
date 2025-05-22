@@ -1,23 +1,29 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Contact Us',
-  description: 'Get in touch with Solar City for inquiries about solar installation, maintenance, or general questions. Our expert team is ready to help you.',
-  keywords: ['solar contact', 'solar energy inquiries', 'solar installation help', 'solar consultation', 'solar city contact'],
+  title: 'Contact Solar City Solutions | Solar Energy Experts in India',
+  description: 'Get in touch with Solar City Solutions for professional solar installation, maintenance, or consultations. Our solar energy experts are ready to help you harness the power of the sun.',
+  keywords: ['solar contact India', 'solar energy experts', 'solar installation contact', 'solar maintenance India', 'solar consultation', 'solar city solutions contact', 'solar panel helpline', 'solar energy support'],
   alternates: {
-    canonical: '/contact'
+    canonical: 'https://www.solarcitysolutions.in/contact'
   },
   openGraph: {
-    title: 'Contact Us | Solar City',
-    description: 'Get in touch with Solar City for inquiries about solar installation, maintenance, or general questions.',
-    url: 'https://solarcity.com/contact',
+    title: 'Contact Solar City Solutions | Solar Energy Experts in India',
+    description: 'Reach out to our team of solar energy experts for installation, maintenance or consultation services across India.',
+    url: 'https://www.solarcitysolutions.in/contact',
     images: [
       {
-        url: '/solar-city-hero-page-md-img.jpg',
+        url: '/solar-contact-og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Solar City - Contact Page'
+        alt: 'Solar City Solutions - Contact Our Solar Experts'
       }
     ]
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Contact Solar City Solutions | Solar Energy Experts',
+    description: 'Reach out to our team of solar energy experts for installation, maintenance or consultation services.',
+    images: ['/solar-contact-og-image.jpg']
   }
 }; 

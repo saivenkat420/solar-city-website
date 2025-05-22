@@ -133,7 +133,6 @@ export default function Navbar() {
             display="flex"
             alignItems="center"
             height="100%"
-            prefetch={true}
           >
             <Image 
               src="/solarcity.svg" 
@@ -211,7 +210,7 @@ function DesktopNav({ pathname, activeSection }: { pathname: string, activeSecti
             color: linkHoverColor,
           }}
           scroll={navItem.href.startsWith('/#') ? true : undefined}
-          prefetch={!navItem.href.startsWith('/#')}
+          prefetch={false}
         >
           {navItem.label}
         </Link>
@@ -236,7 +235,7 @@ function MobileNav({ pathname, activeSection }: { pathname: string, activeSectio
           px={2}
           _hover={{ color: 'sky.500' }}
           scroll={navItem.href.startsWith('/#') ? true : undefined}
-          prefetch={!navItem.href.startsWith('/#')}
+          prefetch={false}
         >
           {navItem.label}
         </Link>

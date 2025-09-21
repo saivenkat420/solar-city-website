@@ -183,7 +183,7 @@ const About = () => {
                   p={3}
                   boxShadow="sm"
                 >
-                  <Avatar src="" alt="User Image" name={t.name} size="md" mb={1} />
+                  <Avatar src=""  name={t.name} size="md" mb={1} />
                   <Text fontWeight="semibold" fontSize="md">
                     {t.name}
                   </Text>

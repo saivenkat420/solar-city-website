@@ -36,13 +36,13 @@ const team = [
 const testimonials = [
   {
     name: "Sunita Verma",
-    img: "https://randomuser.me/api/portraits/women/68.jpg",
+    img: "https://randomuser.me/api/portraits/women.jpg",
     review:
       "Solar City took care of everything for my rooftop project. The process was easy and I am very happy with the results!",
   },
   {
     name: "Rajesh Singh",
-    img: "https://randomuser.me/api/portraits/men/71.jpg",
+    img: "https://randomuser.me/api/portraits/men.jpg",
     review:
       "They handled my PM Surya Ghar Yojana application and installation perfectly. Highly recommended!",
   },
@@ -183,7 +183,7 @@ const About = () => {
                   p={3}
                   boxShadow="sm"
                 >
-                  <Avatar src={t.img} name={t.name} size="md" mb={1} />
+                  <Avatar src="" alt="User Image" name={t.name} size="md" mb={1} />
                   <Text fontWeight="semibold" fontSize="md">
                     {t.name}
                   </Text>
